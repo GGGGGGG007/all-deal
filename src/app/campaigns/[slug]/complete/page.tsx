@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { loadJoinResult } from "@/lib/joinSession";
 import { statusLabel, formatCurrency } from "@/lib/format";
 import type { Campaign } from "@/types/database";
+import ShareButton from "../ShareButton";
 
 const POLL_INTERVAL_MS = 4000;
 
@@ -15,7 +16,6 @@ export default function CompletePage() {
     typeof window === "undefined" ? null : (loadJoinResult(slug)?.queuePosition ?? null)
   );
   const [campaign, setCampaign] = useState<Campaign | null>(null);
-  const [copied, setCopied] = useState(false);
   const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/campaigns/${slug}` : "";
 
   useEffect(() => {
@@ -35,20 +35,6 @@ export default function CompletePage() {
       clearInterval(timer);
     };
   }, [slug]);
-
-  async function handleShare() {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: campaign?.title ?? "공동구매", url: shareUrl });
-        return;
-      } catch {
-        // 사용자가 취소한 경우 등 - 아래 복사 로직으로 폴백
-      }
-    }
-    await navigator.clipboard.writeText(shareUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 px-6 text-center">
@@ -74,9 +60,15 @@ export default function CompletePage() {
         더 빨리 확정되게 하려면 링크를 친구들에게 공유해보세요!
       </p>
 
-      <button onClick={handleShare} className="w-full rounded bg-black px-3 py-2 text-white">
-        {copied ? "링크가 복사됐어요!" : "친구에게 공유하기"}
-      </button>
+      <ShareButton
+        title={campaign?.title ?? "공동구매"}
+        description={
+          campaign
+            ? `${formatCurrency(campaign.unit_price)} · ${campaign.current_count}/${campaign.target_count}명 모임`
+            : undefined
+        }
+        url={shareUrl}
+      />
     </main>
   );
 }

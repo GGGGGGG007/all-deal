@@ -3,6 +3,7 @@ import { createServiceClient } from "@/lib/supabase/server";
 import { formatCurrency, formatDateTime, statusLabel } from "@/lib/format";
 import type { Campaign } from "@/types/database";
 import JoinFlow from "./JoinFlow";
+import ShareButton from "./ShareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,15 @@ export default async function CampaignDetailPage({
         <span className="rounded bg-gray-100 px-2 py-0.5 text-xs">{statusLabel(campaign.status)}</span>
       </div>
       {campaign.description && <p className="mb-4 text-gray-600">{campaign.description}</p>}
+
+      <div className="mb-4">
+        <ShareButton
+          title={campaign.title}
+          description={`${formatCurrency(campaign.unit_price)} · ${campaign.current_count}/${campaign.target_count}명 모임`}
+          url={`${process.env.NEXT_PUBLIC_BASE_URL}/campaigns/${campaign.slug}`}
+          compact
+        />
+      </div>
 
       <p className="mb-2 text-2xl font-bold">{formatCurrency(campaign.unit_price)}</p>
       <p className="mb-1 text-sm text-gray-500">
