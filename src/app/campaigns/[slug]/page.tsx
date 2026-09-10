@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/server";
-import { formatCurrency, formatDateTime, statusLabel } from "@/lib/format";
+import { discountPercent, formatCurrency, formatDateTime, statusLabel } from "@/lib/format";
 import type { Campaign } from "@/types/database";
 import JoinFlow from "./JoinFlow";
 import ShareButton from "./ShareButton";
@@ -64,9 +64,21 @@ export default async function CampaignDetailPage({
             <p className="mb-5 text-sm leading-relaxed text-muted">{campaign.description}</p>
           )}
 
-          <p className="mb-1 text-3xl font-extrabold tracking-tight text-ink">
-            {formatCurrency(campaign.unit_price)}
-          </p>
+          <div className="mb-1 flex items-baseline gap-2">
+            {campaign.regular_price && (
+              <span className="rounded-md bg-accent px-1.5 py-0.5 text-sm font-extrabold text-white">
+                {discountPercent(campaign.regular_price, campaign.unit_price)}%
+              </span>
+            )}
+            <span className="text-3xl font-extrabold tracking-tight text-ink">
+              {formatCurrency(campaign.unit_price)}
+            </span>
+            {campaign.regular_price && (
+              <span className="text-base font-medium text-mid line-through">
+                {formatCurrency(campaign.regular_price)}
+              </span>
+            )}
+          </div>
           <p className="mb-6 text-sm font-semibold text-accent">
             {campaign.target_count}명이 모이면 이 가격으로 확정돼요
           </p>

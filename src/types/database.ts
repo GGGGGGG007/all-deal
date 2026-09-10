@@ -14,6 +14,7 @@ export interface Campaign {
   description: string | null;
   image_url: string | null;
   unit_price: number;
+  regular_price: number | null;
   target_count: number;
   current_count: number;
   status: CampaignStatus;

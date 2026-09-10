@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/server";
-import { formatCurrency, statusLabel } from "@/lib/format";
+import { discountPercent, formatCurrency, statusLabel } from "@/lib/format";
 import type { Campaign } from "@/types/database";
 
 export const dynamic = "force-dynamic";
@@ -38,7 +38,17 @@ export default async function HomePage() {
                     {statusLabel(c.status)}
                   </span>
                 </div>
-                <p className="text-xl font-extrabold text-ink">{formatCurrency(c.unit_price)}</p>
+                <div className="flex items-baseline gap-1.5">
+                  {c.regular_price && (
+                    <span className="rounded bg-accent px-1 py-0.5 text-xs font-extrabold text-white">
+                      {discountPercent(c.regular_price, c.unit_price)}%
+                    </span>
+                  )}
+                  <span className="text-xl font-extrabold text-ink">{formatCurrency(c.unit_price)}</span>
+                  {c.regular_price && (
+                    <span className="text-sm text-mid line-through">{formatCurrency(c.regular_price)}</span>
+                  )}
+                </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-line">
                   <div className="h-full rounded-full bg-accent" style={{ width: `${percent}%` }} />
                 </div>

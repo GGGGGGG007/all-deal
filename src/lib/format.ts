@@ -4,6 +4,10 @@ export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(amount);
 }
 
+export function discountPercent(regularPrice: number, unitPrice: number): number {
+  return Math.round((1 - unitPrice / regularPrice) * 100);
+}
+
 export function formatDateTime(iso: string): string {
   return new Intl.DateTimeFormat("ko-KR", {
     year: "numeric",

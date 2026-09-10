@@ -20,6 +20,7 @@ export default function NewCampaignPage() {
       description: String(form.get("description") || "") || undefined,
       imageUrl: String(form.get("imageUrl") || "") || undefined,
       unitPrice: Number(form.get("unitPrice")),
+      regularPrice: form.get("regularPrice") ? Number(form.get("regularPrice")) : undefined,
       targetCount: Number(form.get("targetCount") || 100),
       deadlineAt: new Date(String(form.get("deadlineAt"))).toISOString(),
     };
@@ -65,6 +66,10 @@ export default function NewCampaignPage() {
         <label className="flex flex-col gap-1 text-sm">
           공동구매 확정가 (원)
           <input name="unitPrice" type="number" required min={1} className="rounded border px-3 py-2" />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          정가 (원, 선택 — 입력하면 확정가 옆에 취소선으로 표시돼요)
+          <input name="regularPrice" type="number" min={1} className="rounded border px-3 py-2" />
         </label>
         <label className="flex flex-col gap-1 text-sm">
           목표 인원

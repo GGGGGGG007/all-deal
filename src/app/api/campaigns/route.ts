@@ -31,7 +31,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { slug, title, description, imageUrl, unitPrice, targetCount, deadlineAt } = parsed.data;
+  const { slug, title, description, imageUrl, unitPrice, regularPrice, targetCount, deadlineAt } =
+    parsed.data;
 
   const supabase = createServiceClient();
   const { data, error } = await supabase
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
       description: description ?? null,
       image_url: imageUrl ?? null,
       unit_price: unitPrice,
+      regular_price: regularPrice ?? null,
       target_count: targetCount,
       deadline_at: new Date(deadlineAt).toISOString(),
     })
