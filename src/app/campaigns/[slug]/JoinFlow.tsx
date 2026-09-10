@@ -4,13 +4,14 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import type { Campaign } from "@/types/database";
-import { statusLabel } from "@/lib/format";
+import { formatCurrency, statusLabel } from "@/lib/format";
 import { savePendingJoin } from "@/lib/joinSession";
+import ShareButton from "./ShareButton";
 
-type Step = "phone" | "otp" | "ready";
+type Step = "idle" | "phone" | "otp" | "ready";
 
-export default function JoinFlow({ campaign }: { campaign: Campaign }) {
-  const [step, setStep] = useState<Step>("phone");
+export default function JoinFlow({ campaign, shareUrl }: { campaign: Campaign; shareUrl: string }) {
+  const [step, setStep] = useState<Step>("idle");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [code, setCode] = useState("");
   const [verificationToken, setVerificationToken] = useState<string | null>(null);
@@ -94,6 +95,27 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
       setLoading(false);
       setError((e as Error).message || "카드 등록 중 오류가 발생했습니다.");
     }
+  }
+
+  if (step === "idle") {
+    return (
+      <div className="flex flex-col gap-3">
+        <button
+          onClick={() => setStep("phone")}
+          className="w-full rounded-2xl bg-accent px-4 py-4 text-lg font-bold text-white"
+        >
+          참여하기
+        </button>
+        <div className="flex justify-center">
+          <ShareButton
+            variant="link"
+            title={campaign.title}
+            description={`${formatCurrency(campaign.unit_price)} · ${campaign.current_count}/${campaign.target_count}명 모임`}
+            url={shareUrl}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (

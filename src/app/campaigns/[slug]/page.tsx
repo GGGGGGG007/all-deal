@@ -3,7 +3,6 @@ import { createServiceClient } from "@/lib/supabase/server";
 import { discountPercent, formatCurrency, formatDateTime, statusLabel } from "@/lib/format";
 import type { Campaign } from "@/types/database";
 import JoinFlow from "./JoinFlow";
-import ShareButton from "./ShareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -26,24 +25,17 @@ export default async function CampaignDetailPage({
 
   const percent = Math.min(100, Math.round((campaign.current_count / campaign.target_count) * 100));
   const remaining = Math.max(0, campaign.target_count - campaign.current_count);
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/campaigns/${campaign.slug}`;
 
   return (
     <main className="mx-auto max-w-md px-5 py-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M15 6L9 12L15 18" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <span className="font-bold text-ink">모두의공구</span>
+      <div className="mb-4 flex items-center gap-2">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M15 6L9 12L15 18" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
-        <ShareButton
-          title={campaign.title}
-          description={`${formatCurrency(campaign.unit_price)} · ${campaign.current_count}/${campaign.target_count}명 모임`}
-          url={`${process.env.NEXT_PUBLIC_BASE_URL}/campaigns/${campaign.slug}`}
-          compact
-        />
+        <span className="font-bold text-ink">모두의공구</span>
       </div>
 
       <div className="overflow-hidden rounded-3xl border border-line bg-white">
@@ -64,19 +56,21 @@ export default async function CampaignDetailPage({
             <p className="mb-5 text-sm leading-relaxed text-muted">{campaign.description}</p>
           )}
 
-          {campaign.regular_price && (
-            <div className="mb-0.5 flex items-center gap-1.5">
-              <span className="rounded-md bg-accent px-1.5 py-0.5 text-xs font-extrabold text-white">
-                {discountPercent(campaign.regular_price, campaign.unit_price)}%
-              </span>
-              <span className="text-sm font-medium text-mid line-through">
-                {formatCurrency(campaign.regular_price)}
-              </span>
-            </div>
-          )}
-          <p className="mb-1 text-3xl font-extrabold tracking-tight text-ink">
-            {formatCurrency(campaign.unit_price)}
-          </p>
+          <div className="mb-1 flex items-center gap-2">
+            <span className="text-3xl font-extrabold tracking-tight text-ink">
+              {formatCurrency(campaign.unit_price)}
+            </span>
+            {campaign.regular_price && (
+              <div className="flex flex-col items-start gap-0.5">
+                <span className="rounded-md bg-accent px-1.5 py-0.5 text-xs font-extrabold text-white">
+                  {discountPercent(campaign.regular_price, campaign.unit_price)}%
+                </span>
+                <span className="text-sm font-medium text-mid line-through">
+                  {formatCurrency(campaign.regular_price)}
+                </span>
+              </div>
+            )}
+          </div>
           <p className="mb-6 text-sm font-semibold text-accent">
             {campaign.target_count}명이 모이면 이 가격으로 확정돼요
           </p>
@@ -104,7 +98,7 @@ export default async function CampaignDetailPage({
       </div>
 
       <div className="mt-4">
-        <JoinFlow campaign={campaign} />
+        <JoinFlow campaign={campaign} shareUrl={shareUrl} />
       </div>
     </main>
   );

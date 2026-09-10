@@ -7,12 +7,12 @@ export default function ShareButton({
   title,
   description,
   url,
-  compact = false,
+  variant = "full",
 }: {
   title: string;
   description?: string;
   url: string;
-  compact?: boolean;
+  variant?: "full" | "compact" | "link";
 }) {
   const [copied, setCopied] = useState(false);
   const [kakaoError, setKakaoError] = useState<string | null>(null);
@@ -40,7 +40,27 @@ export default function ShareButton({
     }
   }
 
-  if (compact) {
+  if (variant === "link") {
+    return (
+      <div className="flex flex-col items-center gap-1">
+        <button
+          onClick={isKakaoShareAvailable() ? handleKakaoShare : handleShare}
+          className="flex items-center gap-1.5 text-sm font-semibold text-muted"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M8.5 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" stroke="#7a7768" strokeWidth="1.6" />
+            <path d="M17.5 6.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" stroke="#7a7768" strokeWidth="1.6" />
+            <path d="M17.5 19.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" stroke="#7a7768" strokeWidth="1.6" />
+            <path d="M15.2 7.9l-4.9 2.9M10.3 13.2l4.9 2.9" stroke="#7a7768" strokeWidth="1.6" />
+          </svg>
+          {copied ? "링크가 복사됐어요!" : "친구에게 공유하기"}
+        </button>
+        {kakaoError && <span className="text-xs text-red-600">{kakaoError}</span>}
+      </div>
+    );
+  }
+
+  if (variant === "compact") {
     return (
       <div className="flex items-center gap-2">
         {isKakaoShareAvailable() && (
