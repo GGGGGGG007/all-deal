@@ -1,6 +1,6 @@
 {
   "crons": [
-    { "path": "/api/cron/expire-campaigns", "schedule": "*/5 * * * *" },
-    { "path": "/api/cron/process-confirming", "schedule": "*/2 * * * *" }
+    { "path": "/api/cron/expire-campaigns", "schedule": "0 0 * * *" },
+    { "path": "/api/cron/process-confirming", "schedule": "5 0 * * *" }
   ]
 }
