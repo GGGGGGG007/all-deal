@@ -19,7 +19,7 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
 
   if (campaign.status !== "recruiting") {
     return (
-      <p className="rounded border bg-gray-50 p-4 text-center text-gray-600">
+      <p className="rounded-2xl border border-line bg-white p-5 text-center text-muted">
         이 캠페인은 현재 {statusLabel(campaign.status)} 상태라 참여할 수 없어요.
       </p>
     );
@@ -97,10 +97,10 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
   }
 
   return (
-    <div className="rounded border p-4">
+    <div className="rounded-3xl border border-line bg-white p-6">
       {step === "phone" && (
         <form onSubmit={handleSendOtp} className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1 text-sm">
+          <label className="flex flex-col gap-1.5 text-sm font-semibold text-ink">
             휴대폰 번호
             <input
               type="tel"
@@ -108,11 +108,15 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               placeholder="01012345678"
-              className="rounded border px-3 py-2"
+              className="rounded-xl border border-line px-4 py-3 text-ink outline-none focus:border-accent"
             />
           </label>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <button type="submit" disabled={loading} className="rounded bg-black px-3 py-2 text-white disabled:opacity-50">
+          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="rounded-2xl bg-accent px-4 py-4 font-bold text-white disabled:opacity-50"
+          >
             {loading ? "발송 중..." : "인증번호 받기"}
           </button>
         </form>
@@ -120,7 +124,7 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
 
       {step === "otp" && (
         <form onSubmit={handleVerifyOtp} className="flex flex-col gap-3">
-          <label className="flex flex-col gap-1 text-sm">
+          <label className="flex flex-col gap-1.5 text-sm font-semibold text-ink">
             인증번호 (6자리)
             <input
               type="text"
@@ -128,11 +132,15 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
               maxLength={6}
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="rounded border px-3 py-2"
+              className="rounded-xl border border-line px-4 py-3 text-ink outline-none focus:border-accent"
             />
           </label>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <button type="submit" disabled={loading} className="rounded bg-black px-3 py-2 text-white disabled:opacity-50">
+          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="rounded-2xl bg-accent px-4 py-4 font-bold text-white disabled:opacity-50"
+          >
             {loading ? "확인 중..." : "인증 확인"}
           </button>
         </form>
@@ -140,15 +148,15 @@ export default function JoinFlow({ campaign }: { campaign: Campaign }) {
 
       {step === "ready" && (
         <div className="flex flex-col gap-3">
-          <p className="text-sm text-gray-600">
-            카드를 등록하면 참여가 완료돼요. 목표 인원이 모일 때까지는 결제되지 않고,
+          <p className="text-sm leading-relaxed text-muted">
+            카드를 등록하면 참여가 완료돼요. 목표 인원이 모일 때까지는 결제되지 않고,{" "}
             {campaign.target_count}명이 모이는 순간 자동으로 결제가 진행됩니다.
           </p>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm font-medium text-red-600">{error}</p>}
           <button
             onClick={handleRegisterCard}
             disabled={loading}
-            className="rounded bg-black px-3 py-2 text-white disabled:opacity-50"
+            className="rounded-2xl bg-accent px-4 py-4 font-bold text-white disabled:opacity-50"
           >
             {loading ? "이동 중..." : "카드 등록하고 참여하기"}
           </button>

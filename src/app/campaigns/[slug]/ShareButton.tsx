@@ -46,12 +46,15 @@ export default function ShareButton({
         {isKakaoShareAvailable() && (
           <button
             onClick={handleKakaoShare}
-            className="rounded bg-[#FEE500] px-3 py-1.5 text-sm font-medium text-black"
+            className="rounded-full bg-[#FEE500] px-3.5 py-1.5 text-sm font-bold text-black"
           >
             카카오톡 공유
           </button>
         )}
-        <button onClick={handleShare} className="rounded border px-3 py-1.5 text-sm">
+        <button
+          onClick={handleShare}
+          className="rounded-full border border-line px-3.5 py-1.5 text-sm font-semibold text-ink"
+        >
           {copied ? "복사됨!" : "링크 공유"}
         </button>
         {kakaoError && <span className="text-xs text-red-600">{kakaoError}</span>}
@@ -60,17 +63,17 @@ export default function ShareButton({
   }
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-2.5">
       {isKakaoShareAvailable() && (
         <button
           onClick={handleKakaoShare}
-          className="w-full rounded bg-[#FEE500] px-3 py-2 font-medium text-black"
+          className="w-full rounded-2xl bg-[#FEE500] px-4 py-4 font-bold text-black"
         >
           카카오톡으로 공유하기
         </button>
       )}
-      {kakaoError && <p className="text-sm text-red-600">{kakaoError}</p>}
-      <button onClick={handleShare} className="w-full rounded bg-black px-3 py-2 text-white">
+      {kakaoError && <p className="text-sm font-medium text-red-600">{kakaoError}</p>}
+      <button onClick={handleShare} className="w-full rounded-2xl bg-accent px-4 py-4 font-bold text-white">
         {copied ? "링크가 복사됐어요!" : "링크 복사 / 다른 방법으로 공유하기"}
       </button>
     </div>

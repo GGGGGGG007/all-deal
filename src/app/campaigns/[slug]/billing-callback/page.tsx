@@ -59,13 +59,13 @@ export default function BillingCallbackPage() {
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
       {error ? (
         <>
-          <p className="mb-4 text-red-600">{error}</p>
-          <a href={`/campaigns/${params.slug}`} className="text-blue-600 underline">
+          <p className="mb-4 font-medium text-red-600">{error}</p>
+          <a href={`/campaigns/${params.slug}`} className="font-semibold text-accent underline">
             캠페인으로 돌아가기
           </a>
         </>
       ) : (
-        <p className="text-gray-600">참여 처리 중입니다...</p>
+        <p className="text-muted">참여 처리 중입니다...</p>
       )}
     </main>
   );

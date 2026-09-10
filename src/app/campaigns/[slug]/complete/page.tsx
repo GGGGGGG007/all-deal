@@ -38,24 +38,31 @@ export default function CompletePage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-4 px-6 text-center">
-      <h1 className="text-xl font-bold">참여가 완료됐어요!</h1>
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-accent-soft">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M5 13l4 4L19 7" stroke="#d97757" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <h1 className="text-xl font-extrabold tracking-tight text-ink">참여가 완료됐어요!</h1>
       {queuePosition !== null && (
-        <p className="text-gray-600">
-          현재 <span className="font-bold">{queuePosition}번째</span> 참여자예요.
+        <p className="text-muted">
+          현재 <span className="font-bold text-ink">{queuePosition}번째</span> 참여자예요.
         </p>
       )}
 
       {campaign && (
-        <div className="w-full rounded border p-4 text-left">
-          <p className="font-semibold">{campaign.title}</p>
-          <p className="text-sm text-gray-500">
+        <div className="w-full rounded-2xl border border-line bg-white p-5 text-left">
+          <p className="font-bold text-ink">{campaign.title}</p>
+          <p className="text-sm text-muted">
             {formatCurrency(campaign.unit_price)} · {campaign.current_count}/{campaign.target_count}명 모임
           </p>
-          <p className="mt-1 text-sm font-medium">{statusLabel(campaign.status)}</p>
+          <p className="mt-1.5 inline-block rounded-full bg-accent-soft px-2.5 py-1 text-xs font-bold text-accent">
+            {statusLabel(campaign.status)}
+          </p>
         </div>
       )}
 
-      <p className="text-sm text-gray-500">
+      <p className="text-sm leading-relaxed text-muted">
         목표 인원이 다 모이면 등록하신 카드로 자동 결제되고, 마감까지 못 모이면 결제 없이 취소돼요.
         더 빨리 확정되게 하려면 링크를 친구들에게 공유해보세요!
       </p>
