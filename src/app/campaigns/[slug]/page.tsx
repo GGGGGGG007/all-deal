@@ -39,10 +39,17 @@ export default async function CampaignDetailPage({
       </div>
 
       <div className="overflow-hidden rounded-3xl border border-line bg-white">
-        <div className="h-56 w-full bg-line">
+        <div className="relative h-56 w-full bg-line">
           {campaign.image_url && (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={campaign.image_url} alt={campaign.title} className="h-full w-full object-cover" />
+          )}
+          {campaign.regular_price && (
+            <div className="absolute top-0 left-0 rounded-br-2xl bg-accent px-4 py-2.5 shadow-lg">
+              <span className="text-2xl font-extrabold tracking-tight text-white">
+                -{discountPercent(campaign.regular_price, campaign.unit_price)}%
+              </span>
+            </div>
           )}
         </div>
 
@@ -56,19 +63,14 @@ export default async function CampaignDetailPage({
             <p className="mb-5 text-sm leading-relaxed text-muted">{campaign.description}</p>
           )}
 
-          <div className="mb-1 flex items-center gap-2">
+          <div className="mb-1 flex items-baseline gap-2">
             <span className="text-3xl font-extrabold tracking-tight text-ink">
               {formatCurrency(campaign.unit_price)}
             </span>
             {campaign.regular_price && (
-              <div className="flex flex-col items-start gap-0.5">
-                <span className="rounded-md bg-accent px-1.5 py-0.5 text-xs font-extrabold text-white">
-                  {discountPercent(campaign.regular_price, campaign.unit_price)}%
-                </span>
-                <span className="text-sm font-medium text-mid line-through">
-                  {formatCurrency(campaign.regular_price)}
-                </span>
-              </div>
+              <span className="text-base font-medium text-mid line-through">
+                {formatCurrency(campaign.regular_price)}
+              </span>
             )}
           </div>
           <p className="mb-6 text-sm font-semibold text-accent">

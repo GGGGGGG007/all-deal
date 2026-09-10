@@ -25,10 +25,17 @@ export default async function HomePage() {
               href={`/campaigns/${c.slug}`}
               className="flex flex-col overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md"
             >
-              <div className="h-40 w-full bg-line">
+              <div className="relative h-40 w-full bg-line">
                 {c.image_url && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={c.image_url} alt={c.title} className="h-full w-full object-cover" />
+                )}
+                {c.regular_price && (
+                  <div className="absolute top-0 left-0 rounded-br-xl bg-accent px-3 py-1.5 shadow">
+                    <span className="text-lg font-extrabold tracking-tight text-white">
+                      -{discountPercent(c.regular_price, c.unit_price)}%
+                    </span>
+                  </div>
                 )}
               </div>
               <div className="flex flex-1 flex-col gap-3 p-5">
@@ -38,15 +45,10 @@ export default async function HomePage() {
                     {statusLabel(c.status)}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-baseline gap-2">
                   <span className="text-xl font-extrabold text-ink">{formatCurrency(c.unit_price)}</span>
                   {c.regular_price && (
-                    <div className="flex flex-col items-start gap-0.5">
-                      <span className="rounded bg-accent px-1 py-0.5 text-[10px] font-extrabold text-white">
-                        {discountPercent(c.regular_price, c.unit_price)}%
-                      </span>
-                      <span className="text-xs text-mid line-through">{formatCurrency(c.regular_price)}</span>
-                    </div>
+                    <span className="text-sm text-mid line-through">{formatCurrency(c.regular_price)}</span>
                   )}
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-line">
