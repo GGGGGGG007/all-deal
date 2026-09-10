@@ -38,17 +38,15 @@ export default async function HomePage() {
                     {statusLabel(c.status)}
                   </span>
                 </div>
-                <div className="flex items-baseline gap-1.5">
-                  {c.regular_price && (
+                {c.regular_price && (
+                  <div className="flex items-center gap-1.5">
                     <span className="rounded bg-accent px-1 py-0.5 text-xs font-extrabold text-white">
                       {discountPercent(c.regular_price, c.unit_price)}%
                     </span>
-                  )}
-                  <span className="text-xl font-extrabold text-ink">{formatCurrency(c.unit_price)}</span>
-                  {c.regular_price && (
-                    <span className="text-sm text-mid line-through">{formatCurrency(c.regular_price)}</span>
-                  )}
-                </div>
+                    <span className="text-xs text-mid line-through">{formatCurrency(c.regular_price)}</span>
+                  </div>
+                )}
+                <span className="text-xl font-extrabold text-ink">{formatCurrency(c.unit_price)}</span>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-line">
                   <div className="h-full rounded-full bg-accent" style={{ width: `${percent}%` }} />
                 </div>

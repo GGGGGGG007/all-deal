@@ -64,21 +64,19 @@ export default async function CampaignDetailPage({
             <p className="mb-5 text-sm leading-relaxed text-muted">{campaign.description}</p>
           )}
 
-          <div className="mb-1 flex items-baseline gap-2">
-            {campaign.regular_price && (
-              <span className="rounded-md bg-accent px-1.5 py-0.5 text-sm font-extrabold text-white">
+          {campaign.regular_price && (
+            <div className="mb-0.5 flex items-center gap-1.5">
+              <span className="rounded-md bg-accent px-1.5 py-0.5 text-xs font-extrabold text-white">
                 {discountPercent(campaign.regular_price, campaign.unit_price)}%
               </span>
-            )}
-            <span className="text-3xl font-extrabold tracking-tight text-ink">
-              {formatCurrency(campaign.unit_price)}
-            </span>
-            {campaign.regular_price && (
-              <span className="text-base font-medium text-mid line-through">
+              <span className="text-sm font-medium text-mid line-through">
                 {formatCurrency(campaign.regular_price)}
               </span>
-            )}
-          </div>
+            </div>
+          )}
+          <p className="mb-1 text-3xl font-extrabold tracking-tight text-ink">
+            {formatCurrency(campaign.unit_price)}
+          </p>
           <p className="mb-6 text-sm font-semibold text-accent">
             {campaign.target_count}명이 모이면 이 가격으로 확정돼요
           </p>
